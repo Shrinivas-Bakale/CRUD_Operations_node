@@ -1,15 +1,15 @@
-const Product = require("./../models/product.model.js");
+import Product from "./../models/product.model.js";
 
-const getAllProducts = async (req, res) => {
+export async function getAllProducts(req, res) {
   try {
     const product = await Product.find({});
     res.status(200).json(product);
   } catch (error) {
-    res.status(500).json({ message: message.error });
+    res.status(500).json({ message: error.message });
   }
-};
+}
 
-const getProductbyId = async (req, res) => {
+export async function getProductbyId(req, res) {
   try {
     const { id } = req.params;
     const products = await Product.findById(id);
@@ -17,18 +17,21 @@ const getProductbyId = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+}
 
-const addProducts = async (req, res) => {
+export async function addProducts(req, res) {
   try {
-    const product = Product.create(req.body);
+    const product = await Product.create(req.body);
     res.status(200).json(product);
   } catch (error) {
+    if (error.code === 1100) {
+      return res.status(400).json({ message: "Product name must be unique" });
+    }
     res.status(500).json({ message: error.message });
   }
-};
+}
 
-const updateProductsById = async (req, res) => {
+export async function updateProductsById(req, res) {
   try {
     const { id } = req.params;
     const products = await Product.findByIdAndUpdate(id, req.body);
@@ -42,9 +45,9 @@ const updateProductsById = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+}
 
-const deleteProductById = async (req, res) => {
+export async function deleteProductById(req, res) {
   try {
     const { id } = req.params;
     const products = await Product.findByIdAndDelete(id, req.body);
@@ -57,12 +60,4 @@ const deleteProductById = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
-
-module.exports = {
-  getAllProducts,
-  getProductbyId,
-  addProducts,
-  updateProductsById,
-  deleteProductById
-};
+}
