@@ -8,15 +8,14 @@ import {
 } from "./../controllers/product.controller.js";
 
 const router = express.Router();
-router.get("/", getAllProducts);
+router.get("/getAllProducts", getAllProducts);
 
-router.get("/:id", getProductbyId);
+router.get("/getProductbyId/:id", getProductbyId);
 
-router.post("/", addProducts);
+router.post("/addProducts", addProducts);
 
-router.put("/:id", updateProductsById);
+router.put("/updateProductById/:id", updateProductsById); 
 
-router.delete("/:id", deleteProductById);
-
+router.delete("/deleteProductById/:id", deleteProductById);
 
 export default router;

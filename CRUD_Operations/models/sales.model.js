@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const SalesSchema = mongoose.Schema(
   {
     productId: {
-      type: Number,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
       required: true,
     },
     productName: {
       type: String,
-      unique: true,
     },
     totalQuantity: {
       type: Number,

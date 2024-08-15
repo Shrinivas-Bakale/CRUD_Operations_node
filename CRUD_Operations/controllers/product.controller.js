@@ -1,4 +1,5 @@
 import Product from "./../models/product.model.js";
+import Sales from "../models/sales.model.js";
 
 export async function getAllProducts(req, res) {
   try {
@@ -19,12 +20,37 @@ export async function getProductbyId(req, res) {
   }
 }
 
+
+
 export async function addProducts(req, res) {
+  const { name, quantity, price } = req.body;
+
   try {
-    const product = await Product.create(req.body);
-    res.status(200).json(product);
+    const productDoc = await Product.findOne({ name });
+    console.log(productDoc, "product doc");
+    if (productDoc) {
+      return res.status(400).json({
+        success: false,
+        msg: "Product already available",
+        productDoc,
+      });
+    }
+
+    const np = new Product();
+    np.name = name;
+    np.quantity = quantity;
+    np.price = price;
+
+    let newProductDoc = await np.save();
+
+    // const product = await Product.create({
+    //     name,
+    //     quantity,
+    //     price
+    // });
+    res.status(200).json(newProductDoc);
   } catch (error) {
-    if (error.code === 1100) {
+    if (error.code === 11000) {
       return res.status(400).json({ message: "Product name must be unique" });
     }
     res.status(500).json({ message: error.message });
