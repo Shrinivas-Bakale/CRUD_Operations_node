@@ -8,7 +8,7 @@ import express from "express";
 
 const router = express.Router();
 
-router.get("/", getAllSales);
+router.get("/getAllSales", getAllSales);
 
 router.get("/getTotalSalesByProductId/:id", getTotalSalesByProductId);
 

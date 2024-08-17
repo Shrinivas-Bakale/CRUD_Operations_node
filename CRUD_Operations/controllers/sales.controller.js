@@ -54,7 +54,7 @@ export async function salesByName(req, res) {
 
         return res.status(200).json(salesDoc);
       } else {
-        return res.status(400).json({ message: "Out of stock" });
+        return res.status(404).json({ message: "Out of stock" });
       }
     } else {
       return res.status(404).json({ message: "Product not found" });
